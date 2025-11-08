@@ -5,7 +5,7 @@ http:
   address: 0.0.0.0:3000
   session_ttl: 0s
 users:
-  - name: admin
+  - name: localadmin
     password: $2a$10$1O9b4Y5dTKnYScIQPnVCMucnT/US4t0vDcd4kk3kbZ1bTrpPpVkHK
 auth_attempts: 5
 block_auth_min: 15

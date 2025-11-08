@@ -39,6 +39,8 @@ services:
     restart: unless-stopped
     networks:
       - proxy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
 networks:
   proxy:
