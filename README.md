@@ -15,5 +15,5 @@ Because this is running DNS these machines should always be on, and have a polic
 2. Run `generate_certs.sh`
 3. Create a crontab job to renew the certs every day. `(crontab -l 2>/dev/null; echo "@daily $(pwd)/renew-cert.sh >> $(pwd)/cron.log 2>&1") | crontab -`
 4. Copy the `SAMPLE.env` and place a password you will remember.
-5. Edit /adgaurd/conf/AdGuard.yaml and update the hostname to reflect the dns name you want it to.
+5. Edit `./adgaurd/conf/AdGuardHome.yaml` and update the hostname to reflect the dns name you want it to.
 6. Run `docker compose up --build --force-recreate -d`
