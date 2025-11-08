@@ -1,0 +1,48 @@
+version: "3.9"
+
+services:
+  adguard:
+    image: adguard/adguardhome:latest
+    container_name: adguard
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "3" 
+    volumes:
+      - ./adguard/work:/opt/adguardhome/work
+      - ./adguard/conf:/opt/adguardhome/conf
+      - ./docker-entrypoint.sh:/docker-entrypoint.sh
+      - ./logs/adguard:/var/log/adguard 
+    entrypoint: ["/bin/sh", "/docker-entrypoint.sh"]
+    restart: unless-stopped
+    ports: # available to LAN
+      - "53:53/tcp"
+      - "53:53/udp"
+    expose: # container to container network
+      - "80"
+      - "3000:3000"
+    network_mode: host
+    environment:
+      - TZ=UTC
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    depends_on:
+      - adguard
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
+      - ./nginx/logs:/var/log/nginx  
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: unless-stopped
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge
+
