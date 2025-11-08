@@ -3,15 +3,15 @@ http:
     port: 6060
     enabled: false
   address: 0.0.0.0:3000
-  session_ttl: 0s
+  session_ttl: 7200h
 users:
   - name: localadmin
-    password: $2a$10$1O9b4Y5dTKnYScIQPnVCMucnT/US4t0vDcd4kk3kbZ1bTrpPpVkHK
-auth_attempts: 5
+    password: $2b$12$CS4xs7wBWFKGubJYPL93h.P0/ZddE0qtJjp7pBZW1DxVQ.awcscfe
+auth_attempts: 100
 block_auth_min: 15
 http_proxy: ""
 language: en
-theme: auto
+theme: dark
 dns:
   bind_hosts:
     - 0.0.0.0
@@ -67,19 +67,19 @@ dns:
   pending_requests:
     enabled: true
 tls:
-  enabled: false
-  server_name: ""
+  enabled: true
+  server_name: dns.home.unorthodoxdev.net
   force_https: false
-  port_https: 443
-  port_dns_over_tls: 853
+  port_https: 8443
+  port_dns_over_tls: 0
   port_dns_over_quic: 853
   port_dnscrypt: 0
   dnscrypt_config_file: ""
   allow_unencrypted_doh: false
   certificate_chain: ""
   private_key: ""
-  certificate_path: ""
-  private_key_path: ""
+  certificate_path: /opt/adguardhome/conf/AdGuardHome.crt
+  private_key_path: /opt/adguardhome/conf/AdGuardHome.key
   strict_sni_check: false
 querylog:
   dir_path: ""
@@ -134,18 +134,27 @@ filtering:
     ids: []
   protection_disabled_until: null
   safe_search:
-    enabled: true
-    bing: true
-    duckduckgo: true
-    ecosia: true
-    google: true
-    pixabay: true
-    yandex: true
-    youtube: true
+    enabled: false
   blocking_mode: default
   parental_block_host: family-block.dns.adguard.com
   safebrowsing_block_host: standard-block.dns.adguard.com
-  rewrites: []
+  rewrites:
+  - domain: dns1.home.unorthodoxdev.net
+    answer: 10.0.5.1
+  - domain: dns2.home.unorthodoxdev.net
+    answer: 10.0.5.2
+  - domain: pve.home.unorthodoxdev.net
+    answer: 10.0.5.5
+  - domain: duckdns.home.unorthodoxdev.net
+    answer: 10.0.5.3
+  - domain: vpn.home.unorthodoxdev.net
+    answer: 10.0.6.1
+  - domain: proxy.home.unorthodoxdev.net
+    answer: 10.0.5.15
+  - domain: apps.home.unorthodoxdev.net
+    answer: 10.0.5.21
+  - domain: db1.home.unorthodoxdev.net
+    answer: 10.0.5.22
   safe_fs_patterns:
     - /opt/adguardhome/work/data/userfilters/*
   safebrowsing_cache_size: 1048576
@@ -181,3 +190,4 @@ os:
   user: ""
   rlimit_nofile: 0
 schema_version: 31
+
